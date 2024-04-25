@@ -12,7 +12,7 @@ export interface Props {
   apiKey: Secret;
 
   /** @title Magento store */
-  store?: string;
+  site: string;
 }
 
 export interface State extends Props {
@@ -25,15 +25,14 @@ export interface State extends Props {
  * @category Ecommmerce
  */
 export default function App(props: Props): App<Manifest, State> {
-  const { baseUrl } = props;
+  const { baseUrl, site } = props;
   const clientGuest = createHttpClient<API>({
     base: baseUrl,
     headers: new Headers({
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      Host: new URL(baseUrl).host,
     }),
   });
-  return { manifest, state: { ...props, api: clientGuest } };
+  return { manifest, state: { ...props, api: clientGuest, site } };
 }
 
 export type AppContext = AC<ReturnType<typeof App>>;
