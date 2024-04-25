@@ -25,14 +25,22 @@ export interface State extends Props {
  * @category Ecommmerce
  */
 export default function App(props: Props): App<Manifest, State> {
-  const { baseUrl, site } = props;
+  const { baseUrl, apiKey, site } = props;
   const clientGuest = createHttpClient<API>({
     base: baseUrl,
     headers: new Headers({
       Host: new URL(baseUrl).host,
     }),
   });
-  return { manifest, state: { ...props, api: clientGuest, site } };
+  return {
+    manifest,
+    state: {
+      baseUrl,
+      apiKey,
+      site,
+      api: clientGuest,
+    },
+  };
 }
 
 export type AppContext = AC<ReturnType<typeof App>>;
