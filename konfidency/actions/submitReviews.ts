@@ -4,34 +4,20 @@ import { logger } from "@deco/deco/o11y";
 
 export interface Props {
   /**
-<<<<<<< HEAD
    * @title Product Id
    */
   id: string;
-=======
-   * @title Product SKU
-   */
-  sku: string;
->>>>>>> main
   review: WriteReview;
 }
 
 export default async function action(props: Props, _req: Request, ctx: AppContext): Promise<ResponseWriteReview | null> {
 
   const { customer, api } = ctx
-<<<<<<< HEAD
   const { review, id } = props
 
   try {
     const response = await api[`POST /:customer/:sku/review`]({
       sku: id,
-=======
-  const { review, sku } = props
-
-  try {
-    const response = await api[`POST /:customer/:sku/review`]({
-      sku: sku,
->>>>>>> main
       customer,
     }, {
       body: {
