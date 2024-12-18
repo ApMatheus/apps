@@ -24,13 +24,22 @@ export default function productDetailsPage(
       return null;
     }
     try {
+
+      //Apps
       const reviews = await api["GET /:customer/:sku/summary"]({
         customer,
         page,
         pageSize,
         sku: productDetailsPage.product.inProductGroupWithID as string,
       }).then((res) => res.json());
-      const { aggregateRating, review } = toReview(reviews.reviews[0]);
+
+      //Meu teste
+      const res = await fetch(`https://reviews-api.konfidency.com.br/${customer}/${productDetailsPage.product.inProductGroupWithID}/summary/${page.toString(), pageSize.toString()}`).then((r) => r.json())
+
+      console.log("1 - teste", reviews.reviews[0].reviews[0]._id)
+      console.log("2 - teste", res)
+      const { aggregateRating, review } = toReview(res.reviews[0]);
+
       return {
         ...productDetailsPage,
         product: {
