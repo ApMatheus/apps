@@ -65,4 +65,5 @@ export interface ResponseWriteReview {
   text: string;
   recommended: boolean;
   rating: number;
+  updateToken: string;
 }

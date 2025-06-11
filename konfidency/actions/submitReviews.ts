@@ -27,6 +27,7 @@ export default async function action(
         ...review,
       },
     }).then((r) => r.json());
+    console.log("response", response)
     return await response;
   } catch (error) {
     const errorObj = error as { name: string; message: string };

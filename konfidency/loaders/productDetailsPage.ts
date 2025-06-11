@@ -44,6 +44,7 @@ export default function productDetailsPage(
           sku: productDetailsPage.product.inProductGroupWithID as string,
         }).then((res) => res.json());
       const { aggregateRating, review } = toReview(reviews.reviews[0]);
+      console.log("review", review)
       return {
         ...productDetailsPage,
         product: {

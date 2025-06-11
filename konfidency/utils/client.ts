@@ -13,4 +13,11 @@ export interface API {
     response: ResponseWriteReview;
     body: WriteReview;
   };
+
+  "POST /:customer/:sku/review/:reviewId/pictures/presign": {
+    body: {
+      updateToken: string;
+      contentTypes: string[];
+    };
+  };
 }
