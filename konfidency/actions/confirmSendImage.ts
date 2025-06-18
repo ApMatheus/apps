@@ -1,15 +1,11 @@
 import { AppContext } from "../mod.ts";
 import { logger } from "@deco/deco/o11y";
-import { ResponsePresign } from "../utils/types.ts";
 
 export interface Props {
   reviewId: string;
-  image: {
-    type: string;
-    size: number;
-  };
   sku: string;
   updateToken: string;
+  key: string;
 }
 
 export default async function action(
@@ -18,28 +14,31 @@ export default async function action(
   ctx: AppContext,
 ) {
   const { customer, api } = ctx;
-  const { reviewId, image, sku, updateToken } = props;
+  const { reviewId, sku, updateToken, key } = props;
+
+  const keys = [key];
+
   try {
-    const response: ResponsePresign | null = await api[`POST /:customer/:sku/review/:reviewId/pictures/presign`]({
+
+    const confirmResponse = await api[`POST /:customer/:sku/review/:reviewId/pictures/confirm`]({
       customer,
       sku,
       reviewId,
     }, {
       body: {
         updateToken,
-        mimeType: image.type,
-        fileSize: image.size,
+        keys,
       },
-    }).then((res) => res.json() as Promise<ResponsePresign>).catch((err) => {
-      logger.error(`Erro ao obter presign: ${err.message}`);
+    }).then((res) => res.json()).catch((err) => {
+      logger.error(`Erro ao confirmar upload: ${err.message}`);
       return null;
     });
 
-    if (!response) {
-      throw new Error("Falha ao obter URL de presign");
+    if (!confirmResponse) {
+      throw new Error("Falha ao confirmar upload");
     }
 
-    return response;
+    return confirmResponse;
   } catch (error) {
     const errorObj = error as Error;
     logger.error(`Erro no processo de upload: ${errorObj.message}`);

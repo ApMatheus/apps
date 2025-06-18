@@ -17,7 +17,15 @@ export interface API {
   "POST /:customer/:sku/review/:reviewId/pictures/presign": {
     body: {
       updateToken: string;
-      contentTypes: string[];
+      mimeType: string;
+      fileSize: number;
+    };
+  };
+
+  "POST /:customer/:sku/review/:reviewId/pictures/confirm": {
+    body: {
+      updateToken: string;
+      keys: string[];
     };
   };
 }

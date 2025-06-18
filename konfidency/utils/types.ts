@@ -67,3 +67,11 @@ export interface ResponseWriteReview {
   rating: number;
   updateToken: string;
 }
+
+export interface ResponsePresign {
+  url: string;
+  key: string;
+  expiresIn: number;
+  bucket: string;
+  mimeType: string;
+}
