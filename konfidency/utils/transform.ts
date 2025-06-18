@@ -8,7 +8,7 @@ export const toReview = (
   ProductReviews: PDPReview["reviews"][0],
 ): { aggregateRating: AggregateRating; review: Review[] } => {
   const review = ProductReviews.reviews.map((
-    { _id: id, name, verified, created, text, rating },
+    { _id: id, name, verified, created, text, rating, pictures },
   ) =>
     ({
       "@type": "Review",
@@ -21,6 +21,10 @@ export const toReview = (
         ratingValue: rating,
         reviewCount: 1,
       },
+      media: pictures?.map((picture) => ({
+        type: "image",
+        url: picture.url,
+      })),
     }) as Review
   );
 
