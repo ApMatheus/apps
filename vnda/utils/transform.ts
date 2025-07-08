@@ -362,12 +362,13 @@ export const toProduct = (
       ],
     // images:
     offers: {
-      "@type": "AggregateOffer",
+      "@type": "Offer",
       priceCurrency: priceCurrency,
       highPrice: productPrice?.price ?? product.price!,
       lowPrice: productPrice?.sale_price ?? product.sale_price!,
       offerCount: offers.length,
       offers: offers,
+      price: productPrice?.price ?? product.price!,
     },
   };
 };
