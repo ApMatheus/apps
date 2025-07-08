@@ -1,4 +1,5 @@
 import { Route } from "../../website/flags/audience.ts";
+import { Script } from "../../website/types.ts";
 import { AppContext } from "../mod.ts";
 
 const PAGE_PATHS = [
@@ -47,6 +48,18 @@ export interface Props {
    */
   excludePathsFromDecoSiteMap?: string[];
   includeSiteMap?: string[];
+    /**
+   * @title Scripts to include on Html head
+   */
+    includeScriptsToHead?: {
+      includes?: Script[];
+    };
+    /**
+     * @title Scripts to include on Html body
+     */
+    includeScriptsToBody?: {
+      includes?: Script[];
+    };
 }
 
 /**
@@ -58,6 +71,8 @@ function loader(
     generateDecoSiteMap,
     excludePathsFromDecoSiteMap = [],
     includeSiteMap,
+    includeScriptsToHead,
+    includeScriptsToBody,
   }: Props,
   _req: Request,
   { publicUrl, account }: AppContext,
@@ -100,6 +115,8 @@ function loader(
           : internalDomain,
         host: url.hostname,
         customHeaders,
+        includeScriptsToHead,
+        includeScriptsToBody,
       },
     },
   }));
@@ -123,6 +140,8 @@ function loader(
         url: `https://api.vnda.com.br/`,
         host: url.hostname,
         customHeaders,
+        includeScriptsToHead,
+        includeScriptsToBody,
       },
     },
   }));
