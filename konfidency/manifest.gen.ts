@@ -4,6 +4,8 @@
 
 import * as $$$$$$$$$0 from "./actions/submitReviews.ts";
 import * as $$$0 from "./loaders/productDetailsPage.ts";
+import * as $$$$$$$$$1 from "./actions/sendImageReview.ts";
+import * as $$$$$$$$$2 from "./actions/confirmSendImage.ts";
 
 const manifest = {
   "loaders": {
@@ -11,6 +13,8 @@ const manifest = {
   },
   "actions": {
     "konfidency/actions/submitReviews.ts": $$$$$$$$$0,
+    "konfidency/actions/sendImageReview.ts": $$$$$$$$$1,
+    "konfidency/actions/confirmSendImage.ts": $$$$$$$$$2,
   },
   "name": "konfidency",
   "baseUrl": import.meta.url,
