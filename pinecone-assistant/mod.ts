@@ -28,11 +28,14 @@ export interface State extends Props {
 
 export type AppContext = FnContext<State & McpContext<Props>, Manifest>;
 
+const PINECONE_API_VERSION = "2025-10";
+
 /**
  * @title Pinecone Assistant
- * @description Pinecone Assistant integration
+ * @appName pinecone-assistant
+ * @description Build conversational agents using vector search from Pinecone.
  * @category IA
- * @logo https://avatars.githubusercontent.com/u/54333248?s=200&v=4
+ * @logo https://assets.decocache.com/mcp/57d30250-ed40-4f13-8b50-3a5ddff95ca0/Pinecone.svg
  */
 export default function App(
   props: Props,
@@ -47,7 +50,7 @@ export default function App(
     base: props.host,
     headers: new Headers({
       "Api-Key": apiKey ?? "",
-      "X-Pinecone-API-Version": "2025-01-01",
+      "X-Pinecone-API-Version": PINECONE_API_VERSION,
     }),
   });
 

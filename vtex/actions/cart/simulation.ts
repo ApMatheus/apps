@@ -18,6 +18,8 @@ export interface Props {
 
 /**
  * @docs https://developers.vtex.com/docs/api-reference/checkout-api#post-/api/checkout/pub/orderForms/simulation
+ * @title Simulation OrderForm
+ * @description Simulate an orderForm, used for shipping and pricing simulation
  */
 const action = async (
   props: Props,

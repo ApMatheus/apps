@@ -32,11 +32,26 @@ export interface SlackWebhookPayload {
   user: string;
   bot_id: string;
   event: {
+    user: string;
     text: string;
     team: string;
     channel: string;
     ts: string;
+    channel_type: string;
   };
+}
+
+export interface SlackPermission {
+  workspace?: {
+    id: string;
+    name: string;
+  };
+  channels?: Array<{
+    id: string;
+    name: string;
+    is_private?: boolean;
+  }>;
+  allCurrentAndFutureChannels?: boolean;
 }
 
 export interface Props {
@@ -65,6 +80,30 @@ export interface Props {
   webhookUrl?: string;
 
   /**
+   * @title Permission
+   * @description Permission to access the Slack API and selected workspace and channels
+   */
+  permission?: SlackPermission;
+
+  /**
+   * @title Account
+   * @description The connected Slack account/workspace name
+   */
+  account?: string;
+
+  /**
+   * @title Debug Mode
+   * @description Enable debug mode for additional logging
+   */
+  debugMode?: boolean;
+
+  /**
+   * @title Custom Bot Name
+   * @description Custom name for the bot in messages
+   */
+  customBotName?: string;
+
+  /**
    * @description Callbacks for the slack binding
    */
   callbacks?: Callbacks;
@@ -81,10 +120,10 @@ export interface State extends Props {
 export type AppContext = FnContext<State & McpContext<Props>, Manifest>;
 
 /**
- * @name Slack
- * @title Slack OAuth
- * @description Send messages and interact with Slack channels using OAuth 2.0
- * @logo https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-512.png
+ * @appName slack
+ * @title Slack
+ * @description Send messages and automate actions in Slack channels.
+ * @logo https://assets.decocache.com/mcp/f7e005a9-1c53-48f7-989b-955baa422be1/Slack.svg
  */
 export default function App(
   appProps: Props,

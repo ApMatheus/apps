@@ -32,10 +32,11 @@ export interface State {
 }
 
 /**
- * @name Clearsale
- * @description API for Clearsale
+ * @title Clearsale
+ * @appName clearsale
+ * @description Evaluate risk and prevent fraud in online transactions.
  * @category Payment
- * @logo https://br.clear.sale/hubfs/CS_FavIcon_512px.png
+ * @logo https://assets.decocache.com/mcp/ac358fdd-be54-4656-b1e8-28e37198fb86/Clearsale.svg
  */
 export default function App(props: Props): App<Manifest, State> {
   const { username, password, homolog } = props;
