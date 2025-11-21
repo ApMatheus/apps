@@ -10,6 +10,9 @@ const compatibilityApps = [{
 
 const config = {
   apps: [
+    app("data-for-seo"),
+    app("discord-user"),
+    app("discord-bot"),
     app("pncp"),
     app("google-calendar"),
     app("apify"),
@@ -91,6 +94,8 @@ const config = {
     app("browser-use"),
     app("clearsale"),
     app("spotify"),
+    app("google-slides"),
+    app("google-sites"),
     ...compatibilityApps,
   ],
 };

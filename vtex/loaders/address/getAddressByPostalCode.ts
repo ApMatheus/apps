@@ -12,6 +12,10 @@ interface Props {
   postalCode: string;
 }
 
+/**
+ * @title Get Address by Postal Code
+ * @description Get an address by postal code
+ */
 export default async function loader(
   props: Props,
   _req: Request,
@@ -38,5 +42,7 @@ export default async function loader(
     areaServed: addressByPostalCode.neighborhood || undefined,
     description: addressByPostalCode.complement || undefined,
     disambiguatingDescription: addressByPostalCode.reference || undefined,
+    latitude: addressByPostalCode.geoCoordinates?.[0] || undefined,
+    longitude: addressByPostalCode.geoCoordinates?.[1] || undefined,
   };
 }
