@@ -4,47 +4,35 @@ import { HubSpotClient } from "../../utils/client.ts";
 export interface Props {
   /**
    * @title Thread ID
-   * @description The ID of the conversation thread to update
+   * @description The ID of the conversation thread to retrieve
    */
   threadId: string;
-
-  /**
-   * @title Archived
-   * @description Whether this thread is archived. Set to false to restore the thread.
-   */
-  archived?: boolean;
-
-  /**
-   * @title Status
-   * @description The thread's status: OPEN or CLOSED
-   */
-  status?: "OPEN" | "CLOSED";
 }
 
 export interface ThreadAssociations {
   /**
    * @title Associated Ticket ID
-   * @description ID of the associated ticket
+   * @description The ID of the associated ticket in the CRM
    */
   associatedTicketId?: string;
 }
 
-export interface ThreadResponse {
+export interface Thread {
   /**
    * @title Associated Contact ID
-   * @description The ID of the associated Contact in the CRM
+   * @description The ID of the associated Contact in the CRM. If the Contact for the thread has not yet been added or created, the associatedContactId returned will be a visitorID and cannot be used to search for the Contact in the CRM.
    */
-  associatedContactId: string;
+  associatedContactId?: string;
 
   /**
    * @title Thread Associations
-   * @description Associated records for this thread
+   * @description Associations related to the thread (e.g., tickets)
    */
   threadAssociations?: ThreadAssociations;
 
   /**
    * @title Assigned To
-   * @description ID of the user assigned to this thread
+   * @description The ID of the user the thread is assigned to
    */
   assignedTo?: string;
 
@@ -62,7 +50,7 @@ export interface ThreadResponse {
 
   /**
    * @title Original Channel ID
-   * @description ID of the original channel
+   * @description The ID of the original channel
    */
   originalChannelId: string;
 
@@ -80,7 +68,7 @@ export interface ThreadResponse {
 
   /**
    * @title Original Channel Account ID
-   * @description ID of the original channel account
+   * @description The ID of the original channel account
    */
   originalChannelAccountId: string;
 
@@ -92,7 +80,7 @@ export interface ThreadResponse {
 
   /**
    * @title Closed At
-   * @description When the thread was closed. Only set if the thread is closed
+   * @description When the thread was closed. Only set if the thread is closed.
    */
   closedAt?: string;
 
@@ -122,31 +110,20 @@ export interface ThreadResponse {
 }
 
 /**
- * @title Update Thread
- * @description Updates a single thread. Either a thread's status can be updated, or the thread can be restored.
+ * @title Get Thread
+ * @description Retrieve a single conversation thread by its ID from HubSpot Conversations API
  */
-export default async function updateThread(
+export default async function getThread(
   props: Props,
   _req: Request,
   ctx: AppContext,
-): Promise<ThreadResponse> {
-  const { threadId, archived, status } = props;
+): Promise<Thread> {
+  const { threadId } = props;
 
   const client = new HubSpotClient(ctx);
 
-  const updateData: Record<string, unknown> = {};
-
-  if (archived !== undefined) {
-    updateData.archived = archived;
-  }
-
-  if (status !== undefined) {
-    updateData.status = status;
-  }
-
-  const response = await client.patch<ThreadResponse>(
+  const response = await client.get<Thread>(
     `/conversations/v3/conversations/threads/${threadId}`,
-    updateData,
   );
 
   return response;
