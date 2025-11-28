@@ -20,6 +20,7 @@ import {
   type AppRuntime,
   type ManifestOf,
 } from "@deco/deco";
+import { Suggestion } from "../commerce/types.ts";
 export type App = ReturnType<typeof VTEX>;
 export type AppContext = AC<App>;
 export type AppManifest = ManifestOf<App>;
@@ -81,6 +82,27 @@ export interface Props {
    * @hide true
    */
   platform: "vtex";
+
+  advancedConfigs?: {
+    doNotFetchVariantsForRelatedProducts?: boolean;
+  };
+
+  /**
+   * @title Cached Search Terms
+   * @description List of search terms that should be cached. By default, search results are not cached.
+   */
+  cachedSearchTerms?: {
+    /**
+     * @title Terms
+     * @description List of search terms that should be cached. Use the top searches loader to get the terms.
+     */
+    terms?: Suggestion;
+    /**
+     * @title Extra Paths
+     * @description List of extra terms that should be cached.
+     */
+    extraTerms?: string[];
+  };
 }
 export const color = 0xf71963;
 /**
@@ -148,6 +170,26 @@ export default function VTEX(
     processHeaders: removeDirtyCookies,
     headers: headers,
   });
+  const vpay = createHttpClient<VPAY>({
+    base: `https://${account}.vtexpayments.com.br`,
+    fetcher: fetchSafe,
+    processHeaders: removeDirtyCookies,
+    headers: headers,
+  });
+  const sub = createHttpClient<SUB>({
+    base: `https://${account}.vtexcommercestable.com.br`,
+    processHeaders: removeDirtyCookies,
+    fetcher: fetchSafe,
+    headers: headers,
+  });
+
+  const cachedSearchTerms = [
+    ...(props.cachedSearchTerms?.terms?.searches ?? []).map((search) =>
+      search.term
+    ),
+    ...(props.cachedSearchTerms?.extraTerms ?? []),
+  ];
+
   const state = {
     ...props,
     salesChannel: salesChannel ?? "1",
@@ -159,6 +201,9 @@ export default function VTEX(
     vcs,
     my,
     api,
+    vpay,
+    sub,
+    cachedSearchTerms,
   };
   const app: A<Manifest, typeof state, [
     ReturnType<typeof workflow>,
