@@ -17,6 +17,10 @@ interface Props {
    */
   where?: string;
   /**
+   * @description Schema of the data entity.
+   */
+  schema?: string;
+  /**
    * @description Inform a field name plus ASC to sort results by this field value in ascending order or DESC to sort by descending order.
    */
   sort?: string;
@@ -56,6 +60,7 @@ export default async function loader(
     _fields: fields,
     _where: where,
     _sort: sort,
+    _schema: schema,
   }, {
     headers: {
       accept: "application/vnd.vtex.ds.v10+json",

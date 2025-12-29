@@ -5,6 +5,7 @@ import type { CreateNewDocument } from "../../utils/types.ts";
 export interface Props {
   data: Record<string, unknown>;
   acronym: string;
+  schema?: string;
   isPrivateEntity?: boolean;
 }
 
@@ -35,11 +36,11 @@ const action = async (
   const response =
     await (isPrivateEntity
       ? vcs[`POST /api/dataentities/:acronym/documents`](
-        { acronym },
+        schema ? { acronym, _schema: schema } : { acronym },
         requestOptions,
       )
       : vcsDeprecated[`POST /api/dataentities/:acronym/documents`](
-        { acronym },
+        schema ? { acronym, _schema: schema } : { acronym },
         requestOptions,
       ));
 

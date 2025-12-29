@@ -10,6 +10,7 @@ export interface Props {
   acronym: string;
   data: Record<string, unknown>;
   createIfNotExists?: boolean;
+  schema?: string;
 }
 
 /**
@@ -39,11 +40,11 @@ const action = async (
   const response =
     await (createIfNotExists
       ? vcs["PATCH /api/dataentities/:acronym/documents"](
-        { acronym },
+        schema ? { acronym, _schema: schema } : { acronym },
         requestOptions,
       )
       : vcs["PATCH /api/dataentities/:acronym/documents/:id"](
-        { acronym, id },
+        schema ? { acronym, id, _schema: schema } : { acronym, id },
         requestOptions,
       ));
 
